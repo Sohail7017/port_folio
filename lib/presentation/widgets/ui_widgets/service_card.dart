@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../../core/constant/color_constant.dart';
 
 class ServiceCard extends StatelessWidget {
   final String title;
@@ -16,80 +17,112 @@ class ServiceCard extends StatelessWidget {
     required this.points,
   });
 
+  double getFont(BuildContext context, double size) {
+    double width = MediaQuery.of(context).size.width;
+    return size * (width / 1400).clamp(0.75, 1.1);
+  }
+
+  double getImageSize(double width) {
+    if (width > 1200) return 90;
+    if (width > 800) return 75;
+    return 60;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final imgSize = getImageSize(width);
+
     return Container(
-      margin: EdgeInsets.only(top: 14,bottom: 14,left: 14), //  Shadow ke liye outer gap
-      padding: EdgeInsets.all(20),
+      clipBehavior: Clip.hardEdge,
+      margin: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: ColorConstant.whiteColor,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
-          // Primary shadow (bottom-right)
           BoxShadow(
-            color: Colors.black.withOpacity(0.15),
-            offset: const Offset(6, 6),
-            blurRadius: 12,
-            spreadRadius: 1,
-          ),
-          // Secondary light shadow (top-left)
-          BoxShadow(
-            color: Colors.grey.shade200,
-            offset: const Offset(-4, -4),
+            color: ColorConstant.blackColor.withOpacity(0.1),
             blurRadius: 10,
-            spreadRadius: 1,
+            offset: const Offset(3, 3),
           ),
         ],
       ),
+
+      /// 🔥 FIX: Equal height feel
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          /// IMAGE
           Center(
             child: CircleAvatar(
-              radius: 60,
+              radius: imgSize / 1.6,
               backgroundColor: Colors.blue.shade50,
               child: Image.asset(
                 image,
-                height: 100,
-                width: 100,
-                fit: BoxFit.cover,
+                height: imgSize,
+                width: imgSize,
               ),
             ),
           ),
-          SizedBox(height: 16.h),
 
-          /// Title
+          const SizedBox(height: 14),
+
+          /// TITLE
           Text(
             title,
             style: GoogleFonts.poppins(
               fontWeight: FontWeight.w600,
-              fontSize: 18,
-              color: Colors.black,
+              fontSize: getFont(context, 18),
+              color: ColorConstant.blackColor,
             ),
           ),
-          SizedBox(height: 10.h),
 
-          /// Subtitle
+          const SizedBox(height: 8),
+
+          /// SUBTITLE
           Text(
             subTitle,
+            maxLines: 3, // 🔥 control height
+            overflow: TextOverflow.ellipsis,
             style: GoogleFonts.poppins(
-              fontSize: 14,
+              fontSize: getFont(context, 14),
               color: Colors.black87,
-              height: 1.5,
+              height: 1.4,
             ),
           ),
-          ListView.builder(
-            shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: points.length,
-              itemBuilder: (_,index){
-            return ListTile(
-              minLeadingWidth: 2,
-              leading: Icon(Icons.circle,size: 6,),
-              title: Text(points[index],style: GoogleFonts.poppins(fontSize: 12),),
-            );
-          })
+
+          const SizedBox(height: 10),
+
+          /// POINTS (LIMITED)
+          ...points.take(3).map( // 🔥 max 3 points only
+                (e) => Padding(
+              padding: const EdgeInsets.only(bottom: 5),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(top: 6),
+                    child: Icon(Icons.circle, size: 5),
+                  ),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: Text(
+                      e,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.poppins(
+                        fontSize: getFont(context, 12),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          /// 🔥 Fill space for equal height feel
+          const Spacer(),
         ],
       ),
     );

@@ -1,3 +1,5 @@
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,8 +15,17 @@ class Services extends StatefulWidget {
 }
 
 class _ServicesState extends State<Services> {
-  final PageController _pageController = PageController(viewportFraction: 0.8);
-  int _currentPage = 0;
+   PageController _pageController = PageController(viewportFraction:  0.32);
+   int _currentPage = 0;
+
+  @override
+  void initState() {
+    _pageController = PageController(
+      viewportFraction: 0.32,
+      initialPage: _currentPage,
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,61 +60,60 @@ class _ServicesState extends State<Services> {
                 return Column(
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height*0.68,
+                      height: constraints.maxWidth > 1200
+                          ? 420
+                          : constraints.maxWidth > 800
+                          ? 380
+                          : 320,
                       child: Stack(
                         alignment: Alignment.center,
                         children: [
-                          PageView.builder(
-                            controller: _pageController,
-                            itemCount: WebUtils.servicesData.length,
-                            onPageChanged: (index) {
-                              setState(() => _currentPage = index);
-                            },
-                            itemBuilder: (context, index) {
-                              final service = WebUtils.servicesData[index];
-                              return Center(   // 👈 Center align
-                                child: SizedBox(
-                                  width: 500,
+                      CarouselSlider.builder(
 
-                                  child: ServiceCard(
-                                    title: service["title"],
-                                    subTitle: service["subTitle"],
-                                    image: service["image"],
-                                    points: service['points'],
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
+                      itemCount: WebUtils.servicesData.length,
+                        options: CarouselOptions(
+                          enlargeFactor: 0.12,
 
+                          height: constraints.maxWidth > 1200
+                              ? 420
+                              : constraints.maxWidth > 800
+                              ? 380
+                              : 320,
 
-                          /// Left Arrow
-                          Positioned(
-                            left: MediaQuery.of(context).size.width/9,
-                            child: IconButton(
-                              icon: const Icon(Icons.arrow_back_ios),
-                              onPressed: () {
-                                _pageController.previousPage(
-                                  duration: const Duration(milliseconds: 400),
-                                  curve: Curves.easeInOut,
-                                );
-                              },
+                          viewportFraction: constraints.maxWidth > 1200
+                              ? 0.32
+                              : constraints.maxWidth > 800
+                              ? 0.5
+                              : 0.85,
+
+                          enlargeCenterPage: true, // 🔥 zoom effect
+                          autoPlay: true,
+                          autoPlayInterval: Duration(seconds: 3),
+                          autoPlayAnimationDuration: Duration(milliseconds: 800),
+
+                          onPageChanged: (index, reason) {
+                            setState(() {
+                              _currentPage = index;
+                            });
+                          },
+                        ),
+                        itemBuilder: (context, index, realIndex) {
+                          final service = WebUtils.servicesData[index];
+
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: ServiceCard(
+                              title: service["title"],
+                              subTitle: service["subTitle"],
+                              image: service["image"],
+                              points: service['points'],
                             ),
-                          ),
+                          );
+                        },
+                      )
 
-                          /// Right Arrow
-                          Positioned(
-                            right: MediaQuery.of(context).size.width/9,
-                            child: IconButton(
-                              icon: const Icon(Icons.arrow_forward_ios),
-                              onPressed: () {
-                                _pageController.nextPage(
-                                  duration: const Duration(milliseconds: 400),
-                                  curve: Curves.easeInOut,
-                                );
-                              },
-                            ),
-                          ),
+
+
                         ],
                       ),
                     ),

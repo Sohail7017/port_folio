@@ -106,7 +106,7 @@ class _FooterSectionState extends State<FooterSection> {
                           textAlign: TextAlign.start,
                         ),
                         const SizedBox(height: 20),
-                        Wrap(
+                      /*  Wrap(
                           spacing: 12,
                           children: [
                             FooterSection._socialIcon(Icons.linked_camera),
@@ -114,7 +114,7 @@ class _FooterSectionState extends State<FooterSection> {
                             FooterSection._socialIcon(Icons.alternate_email),
                             FooterSection._socialIcon(Icons.camera_alt),
                           ],
-                        )
+                        )*/
                       ],
                     ),
                   ),

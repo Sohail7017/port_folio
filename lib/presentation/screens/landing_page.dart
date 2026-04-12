@@ -73,7 +73,7 @@ class _LandingPageState extends State<LandingPage> {
       body: WebSmoothScroll(
         controller: _scrollController,
         child: SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
+          physics:  const ClampingScrollPhysics(),
           controller: _scrollController,
           child: Column(
             children: [

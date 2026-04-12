@@ -58,6 +58,8 @@ class _HeroSectionState extends State<HeroSection> with TickerProviderStateMixin
   }
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return LayoutBuilder(
       builder: (context, constraints) {
         bool isMobile = constraints.maxWidth < 800;
@@ -66,7 +68,9 @@ class _HeroSectionState extends State<HeroSection> with TickerProviderStateMixin
         return Container(
           height: isMobile?MediaQuery.of(context).size.height*0.97:MediaQuery.of(context).size.height*0.95,
           width: double.infinity,
-          padding: EdgeInsets.symmetric(horizontal: isMobile?14:40, vertical: isMobile?20:60),
+          padding: EdgeInsets.symmetric(
+            horizontal: (screenWidth * 0.08).clamp(16, 120),
+          ),
           decoration:  BoxDecoration(
             gradient: LinearGradient(
               colors: [ColorConstant.startColor, ColorConstant.endColor],
@@ -98,16 +102,18 @@ class _HeroSectionState extends State<HeroSection> with TickerProviderStateMixin
           ///  Desktop / Web Layout
               : Stack(
                 children: [
-                  Padding(
-                    padding:  EdgeInsets.symmetric(horizontal: isTablet?20: 50.0),
-                    child: Row(
+                  Center(
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(maxWidth: 1400),
+                      child: Row(
 
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                    Expanded(child: _buildTextContent(isMobile,onTouch: widget.onContact,onProject: widget.onWork)),
-                    _buildProfileImage(isMobile),
-                                ],
-                              ),
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                      Expanded(child: _buildTextContent(isMobile,onTouch: widget.onContact,onProject: widget.onWork)),
+                      _buildProfileImage(isMobile),
+                                  ],
+                                ),
+                    ),
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,
@@ -135,6 +141,7 @@ class _HeroSectionState extends State<HeroSection> with TickerProviderStateMixin
   }
 
   Widget _buildTextContent(bool isMobile,{required VoidCallback onTouch,required VoidCallback onProject}) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Column(
       crossAxisAlignment:
       isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start,
@@ -147,7 +154,7 @@ class _HeroSectionState extends State<HeroSection> with TickerProviderStateMixin
             Text(
               "Hi, I'm ",
               style: GoogleFonts.poppins(
-                fontSize: isMobile ? 28 : 36,
+                fontSize: (screenWidth * 0.035).clamp(24, 48),
                 fontWeight: FontWeight.bold,
                 color: ColorConstant.whiteColor,
               ),
@@ -155,7 +162,7 @@ class _HeroSectionState extends State<HeroSection> with TickerProviderStateMixin
             Text(
               "Sohail Khan",
               style: GoogleFonts.poppins(
-                fontSize: isMobile ? 28 : 36,
+                fontSize: (screenWidth * 0.035).clamp(24, 48),
                 fontWeight: FontWeight.w500,
                 color: ColorConstant.lightBlue,
               ),
@@ -167,7 +174,7 @@ class _HeroSectionState extends State<HeroSection> with TickerProviderStateMixin
           "Flutter Developer & Mobile App Specialist",
           textAlign: isMobile ? TextAlign.center : TextAlign.start,
           style: GoogleFonts.poppins(
-            fontSize: isMobile ? 16 : 18,
+            fontSize: (screenWidth * 0.018).clamp(14, 22),
             color: ColorConstant.whiteColor,
           ),
         ),
@@ -177,7 +184,7 @@ class _HeroSectionState extends State<HeroSection> with TickerProviderStateMixin
               "Passionate about crafting seamless user experiences and bringing innovative ideas to life.",
           textAlign: isMobile ? TextAlign.center : TextAlign.start,
           style: GoogleFonts.poppins(
-            fontSize: isMobile ? 13 : 14,
+            fontSize: (screenWidth * 0.014).clamp(12, 16),
             color: ColorConstant.whiteColor,
             height: 1.5,
           ),
@@ -229,6 +236,9 @@ class _HeroSectionState extends State<HeroSection> with TickerProviderStateMixin
   }
 
   Widget _buildProfileImage(bool isMobile) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    double imageSize = (screenWidth * 0.18).clamp(200, 420);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 40.0),
       child: AnimatedBuilder(
@@ -240,8 +250,8 @@ class _HeroSectionState extends State<HeroSection> with TickerProviderStateMixin
           );
         },
         child: Container(
-          width: isMobile ? 230 : 300,
-          height: isMobile ? 230 : 300,
+          width: imageSize,
+          height: imageSize,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(color: Colors.white54, width: 8),
@@ -280,6 +290,7 @@ required Color iconColor,
 required Color backGroundColor,
 required Color borderColor,
 }){
+  double screenWidth = MediaQuery.of(context).size.width;
     return SizedBox(
       height: 45,
       child: ElevatedButton(
@@ -289,7 +300,7 @@ required Color borderColor,
           spacing: 5,
         children: [
           Icon(icon,color: iconColor,),
-         Text(title,style: GoogleFonts.poppins(fontSize: 16,color:titleColor ),),
+         Text(title,style: GoogleFonts.poppins(fontSize: (screenWidth * 0.012).clamp(14, 18),color:titleColor ),),
 
         ],
       ),style: ElevatedButton.styleFrom(
