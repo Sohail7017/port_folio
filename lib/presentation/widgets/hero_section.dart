@@ -117,18 +117,21 @@ class _HeroSectionState extends State<HeroSection> with TickerProviderStateMixin
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,
-                    child: AnimatedBuilder(
-                      animation: _arrowBounce,
-                      builder: (context, child) {
-                        return Transform.translate(
-                          offset: Offset(0, _arrowBounce.value),
-                          child: child,
-                        );
-                      },
-                      child: Icon(
-                        Icons.keyboard_arrow_down,
-                        color: ColorConstant.whiteColor,
-                        size: 35,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 30.0),
+                      child: AnimatedBuilder(
+                        animation: _arrowBounce,
+                        builder: (context, child) {
+                          return Transform.translate(
+                            offset: Offset(0, _arrowBounce.value),
+                            child: child,
+                          );
+                        },
+                        child: Icon(
+                          Icons.keyboard_arrow_down,
+                          color: ColorConstant.whiteColor,
+                          size: 35,
+                        ),
                       ),
                     ),
                   ),
@@ -216,7 +219,7 @@ class _HeroSectionState extends State<HeroSection> with TickerProviderStateMixin
           _roundedButton(
               title: "Get In Touch",
               icon: Icons.mail_outline,
-              onTap: (){},
+              onTap: onTouch,
               titleColor: ColorConstant.endColor,
               iconColor: ColorConstant.endColor,
               backGroundColor:ColorConstant.whiteColor,
@@ -226,7 +229,7 @@ class _HeroSectionState extends State<HeroSection> with TickerProviderStateMixin
         _roundedButton(
             title: "View Projects",
             icon: Icons.folder_open,
-            onTap: (){},
+            onTap: onProject,
             titleColor: ColorConstant.whiteColor,
             iconColor: ColorConstant.whiteColor,
             backGroundColor: ColorConstant.endColor,

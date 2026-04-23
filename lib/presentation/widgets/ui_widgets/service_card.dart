@@ -52,6 +52,7 @@ class ServiceCard extends StatelessWidget {
       /// 🔥 FIX: Equal height feel
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           /// IMAGE
           Center(
@@ -121,8 +122,6 @@ class ServiceCard extends StatelessWidget {
             ),
           ),
 
-          /// 🔥 Fill space for equal height feel
-          const Spacer(),
         ],
       ),
     );

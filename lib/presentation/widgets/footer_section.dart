@@ -100,10 +100,9 @@ class _FooterSectionState extends State<FooterSection> {
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          "Passionate Flutter developer creating beautiful, performant\n"
-                              "mobile applications. Let's bring your ideas to life with cutting-edge technology.",
+                          "Passionate Flutter developer creating beautiful, performant mobile applications. Let's bring your ideas to life with cutting-edge technology.",
                           style: mTextStyle12(color: Colors.white70),
-                          textAlign: TextAlign.start,
+                          textAlign: isMobile? TextAlign.center: TextAlign.start,
                         ),
                         const SizedBox(height: 20),
                       /*  Wrap(

@@ -144,7 +144,7 @@ class _ServicesState extends State<Services> {
               //  MOBILE / TABLET → GridView
               else {
                 return SizedBox(
-                  height: 480,
+                  height: MediaQuery.of(context).size.height * 0.42,
                   child: ListView.builder(
                     itemCount: WebUtils.servicesData.length,
                     shrinkWrap: true,
@@ -154,7 +154,7 @@ class _ServicesState extends State<Services> {
                       return Padding(
                         padding:  EdgeInsets.only(right: index == WebUtils.servicesData.length - 1 ? 14 : 0),
                         child: SizedBox(
-                          width: 360, // 👈 fixed width for horizontal list item
+                          width: MediaQuery.of(context).size.width * 0.75, // 👈 fixed width for horizontal list item
                           child: ServiceCard(
                             title: service["title"],
                             subTitle: service["subTitle"],
